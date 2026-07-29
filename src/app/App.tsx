@@ -614,7 +614,7 @@ const PAPERS = [
     authors: "Madan, S., Surabiyil Bindu, S., & Potluri, V.",
     type: "Full Paper",
     award: "Best Technical Paper Nominee",
-    url: "https://dl.acm.org/doi/10.1145/3800424.38004",
+    url: "https://doi.org/10.1145/3800424.3800455",
   },
   {
     num: "1",
