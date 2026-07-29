@@ -19,6 +19,68 @@ function SR({ children }: { children: React.ReactNode }) {
   return <span className="sr-only">{children}</span>;
 }
 
+// ─── Decorative doodles (aria-hidden, pointer-events-none) ───────────────────
+
+function DoodleSparkle({ className = "", size = 20 }: { className?: string; size?: number }) {
+  return (
+    <svg aria-hidden="true" focusable="false" className={`pointer-events-none ${className}`} width={size} height={size} viewBox="0 0 20 20" fill="none">
+      <path d="M10 1 L11.5 8.5 L19 10 L11.5 11.5 L10 19 L8.5 11.5 L1 10 L8.5 8.5 Z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" fill="none"/>
+    </svg>
+  );
+}
+
+function DoodleLightning({ className = "" }: { className?: string }) {
+  return (
+    <svg aria-hidden="true" focusable="false" className={`pointer-events-none ${className}`} width="28" height="44" viewBox="0 0 28 44" fill="none">
+      <path d="M18 2 L6 22 L14 22 L10 42 L24 18 L15 18 Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
+    </svg>
+  );
+}
+
+function DoodleWave({ className = "" }: { className?: string }) {
+  return (
+    <svg aria-hidden="true" focusable="false" className={`pointer-events-none ${className}`} width="120" height="28" viewBox="0 0 120 28" fill="none">
+      <path d="M0 14 C15 4, 30 24, 45 14 C60 4, 75 24, 90 14 C105 4, 114 24, 120 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+      <path d="M0 21 C15 11, 30 31, 45 21 C60 11, 75 31, 90 21 C105 11, 114 31, 120 21" stroke="currentColor" strokeWidth="1" strokeLinecap="round" fill="none" opacity="0.5"/>
+    </svg>
+  );
+}
+
+function DoodleScribble({ className = "" }: { className?: string }) {
+  return (
+    <svg aria-hidden="true" focusable="false" className={`pointer-events-none ${className}`} width="90" height="50" viewBox="0 0 90 50" fill="none">
+      <path d="M5 40 C10 20, 25 5, 45 18 C60 28, 55 48, 40 42 C27 37, 24 22, 36 16 C48 10, 62 24, 58 36 C54 46, 68 30, 80 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.55"/>
+    </svg>
+  );
+}
+
+function DoodleDots({ className = "" }: { className?: string }) {
+  return (
+    <svg aria-hidden="true" focusable="false" className={`pointer-events-none ${className}`} width="110" height="100" viewBox="0 0 110 100" fill="none">
+      <circle cx="8"  cy="8"  r="2.5" fill="currentColor" opacity="0.5"/>
+      <circle cx="26" cy="3"  r="1.5" fill="currentColor" opacity="0.35"/>
+      <circle cx="44" cy="11" r="2"   fill="currentColor" opacity="0.4"/>
+      <circle cx="62" cy="4"  r="1.5" fill="currentColor" opacity="0.3"/>
+      <circle cx="80" cy="14" r="2"   fill="currentColor" opacity="0.4"/>
+      <circle cx="4"  cy="28" r="1.5" fill="currentColor" opacity="0.3"/>
+      <circle cx="18" cy="42" r="2.5" fill="currentColor" opacity="0.45"/>
+      <circle cx="36" cy="34" r="1"   fill="currentColor" opacity="0.25"/>
+      <circle cx="52" cy="26" r="1.5" fill="currentColor" opacity="0.35"/>
+      <circle cx="70" cy="36" r="2"   fill="currentColor" opacity="0.4"/>
+      <circle cx="90" cy="28" r="1.5" fill="currentColor" opacity="0.3"/>
+    </svg>
+  );
+}
+
+function DoodleCornerLines({ className = "" }: { className?: string }) {
+  return (
+    <svg aria-hidden="true" focusable="false" className={`pointer-events-none ${className}`} width="70" height="70" viewBox="0 0 70 70" fill="none">
+      <path d="M2 68 C8 50, 20 30, 40 15 C55 4, 68 2, 68 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none" opacity="0.4"/>
+      <path d="M2 52 C12 38, 28 22, 48 10" stroke="currentColor" strokeWidth="1" strokeLinecap="round" fill="none" opacity="0.25"/>
+    </svg>
+  );
+}
+
 // Accessible emoji with label
 function Emoji({ symbol, label }: { symbol: string; label: string }) {
   return <span role="img" aria-label={label}>{symbol}</span>;
@@ -387,9 +449,20 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
   const hiddenCount = UPDATES.length - 5;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6">
-      <section className="pt-12 sm:pt-14 pb-12 md:grid md:grid-cols-[1fr_200px] md:gap-10 md:items-start" aria-labelledby="about-h1">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 relative overflow-hidden">
+      {/* Corner sparkles */}
+      <DoodleSparkle className="absolute top-10 right-6 text-black opacity-20 hidden md:block" size={18} />
+      <DoodleSparkle className="absolute top-24 right-16 text-black opacity-10 hidden md:block" size={12} />
+      <DoodleLightning className="absolute bottom-40 left-2 text-black opacity-10 hidden md:block" />
+      <DoodleSparkle className="absolute bottom-48 left-10 text-black opacity-15 hidden md:block" size={14} />
+
+      <section className="pt-12 sm:pt-14 pb-12 md:grid md:grid-cols-[1fr_200px] md:gap-12 md:items-start" aria-labelledby="about-h1">
         <div>
+          {/* Pill label */}
+          <div className="inline-flex items-center gap-2 border border-black rounded-full px-4 py-1.5 text-sm font-semibold mb-6" aria-hidden="true">
+            <span>·</span> About
+          </div>
+
           {/* Mobile: name + small headshot side by side */}
           <div className="flex items-start gap-4 mb-4 md:block md:mb-0">
             <div className="flex-1">
@@ -406,11 +479,11 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
               </p>
             </div>
             <figure className="md:hidden shrink-0 w-20 mt-1" aria-hidden="true">
-              <ImageWithFallback src={headshotImg} alt="" className="w-full aspect-square object-cover object-top rounded-sm" />
+              <ImageWithFallback src={headshotImg} alt="" className="w-full aspect-square object-cover object-top rounded-full" />
             </figure>
           </div>
 
-          <div className="space-y-4 text-sm leading-relaxed mt-4 md:mt-4 mb-8 max-w-xl">
+          <div className="space-y-4 text-sm leading-relaxed mt-5 mb-8 max-w-xl">
             <p>
               I am a PhD student at the{" "}
               <a href="https://si.umich.edu" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
@@ -427,8 +500,8 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
               .
             </p>
             <p>I hold a Master of Science in Information Science (Human-Computer Interaction) and a Bachelor's in Design (Interaction Design).</p>
-            <p>My master's thesis focused on developing empirical guidelines for evaluating the accessibility of conversational programming tools.</p>
-            <p>A core strand of my research focuses on evaluating conversational AI for accessibility, the representation of people with disabilities, and how AI could perpetuate or mitigate disability bias in everyday interactions.</p>
+            <p>My master's thesis focused on developing empirical guidelines for <strong>evaluating the accessibility of conversational programming tools</strong>.</p>
+            <p>A core strand of my research focuses on <strong>evaluating conversational AI for accessibility</strong>, the representation of people with disabilities, and how AI could perpetuate or mitigate disability bias in everyday interactions.</p>
             <p>I am currently working on evaluating disability representation in LLMs and assessing AI systems for accessibility, representation, trust, and disclosure.</p>
             <p>
               I'm always open to collaborations. If a project comes to mind that aligns with my background, please{" "}
@@ -454,17 +527,26 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
           </nav>
         </div>
 
-        <figure className="hidden md:block">
-          <ImageWithFallback
-            src={headshotImg}
-            alt="Shalini Madan smiling warmly at her graduation ceremony. She is wearing a white textured blazer and a University of Michigan yellow and navy blue graduation sash draped around her neck."
-            className="w-full aspect-square object-cover object-top rounded-sm"
-          />
-        </figure>
+        {/* Desktop circular headshot with wave doodle */}
+        <div className="hidden md:flex flex-col items-center gap-3 pt-14">
+          <figure className="relative">
+            <ImageWithFallback
+              src={headshotImg}
+              alt="Shalini Madan smiling warmly at her graduation ceremony. She is wearing a white textured blazer and a University of Michigan yellow and navy blue graduation sash draped around her neck."
+              className="w-48 h-48 object-cover object-top rounded-full"
+            />
+            <DoodleWave className="absolute -bottom-5 -right-8 text-black opacity-20" />
+          </figure>
+        </div>
       </section>
 
       <section className="border-t border-border py-10" aria-labelledby="updates-h2">
-        <h2 id="updates-h2" className="text-base font-semibold mb-6">Updates</h2>
+        <div className="flex items-center gap-4 mb-6">
+          <div className="inline-flex items-center gap-2 border border-black rounded-full px-4 py-1.5 text-sm font-semibold" aria-hidden="true">
+            <span>·</span> Updates
+          </div>
+        </div>
+        <h2 id="updates-h2" className="sr-only">Updates</h2>
         <ul id="updates-list" className="divide-y divide-border" role="list">
           {visible.map((u, i) => (
             <li key={i} className="py-3.5 flex gap-5 items-start">
@@ -551,7 +633,8 @@ function ResearchPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> })
   const [expanded, setExpanded] = useState<string | null>(null);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-14">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-14 relative overflow-hidden">
+      <DoodleScribble className="absolute top-8 right-2 text-black opacity-[0.07] hidden md:block" />
       <h1 ref={h1Ref} tabIndex={-1} className="text-2xl font-semibold mb-3 focus-visible:outline-none">
         Research
       </h1>
@@ -719,7 +802,8 @@ function ResumePage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-14">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-14 relative overflow-hidden">
+      <DoodleDots className="absolute bottom-10 right-0 text-black opacity-[0.06] hidden md:block" />
       <div className="flex items-start justify-between flex-wrap gap-4 mb-8 sm:mb-10">
         <h1 ref={h1Ref} tabIndex={-1} className="text-2xl font-semibold focus-visible:outline-none">
           Resume

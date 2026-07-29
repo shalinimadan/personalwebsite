@@ -1,6 +1,8 @@
 
   # Personal Portfolio Website
-Made with figma & figma make
+
+  This is a code bundle for Personal Portfolio Website. The original project is available at https://www.figma.com/design/SntZHRcfIjD8z2kyijzNfy/Personal-Portfolio-Website.
+
   ## Running the code
 
   Run `npm i` to install the dependencies.
