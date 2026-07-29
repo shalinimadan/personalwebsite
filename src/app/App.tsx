@@ -521,7 +521,7 @@ const PAPERS = [
     authors: "Madan, S., Surabiyil Bindu, S., Pimenova, V., Seehorn, E., & Potluri, V.",
     type: "Short Paper",
     award: null,
-    url: null,
+    url: "https://arxiv.org/abs/2607.22886",
   },
   {
     num: "2",
@@ -556,7 +556,7 @@ function ResearchPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> })
         Research
       </h1>
       <p className="text-sm text-muted-foreground mb-10 max-w-2xl leading-relaxed">
-        My research evaluates conversational AI and large language models for accessibility and disability representation, and examines how AI systems could perpetuate or mitigate disability bias. I also develop heuristic evaluation methods to evaluate emerging programming interfaces for accessibility.
+        My research evaluates conversational AI and large language models for accessibility and disability representation, and examines how AI systems could perpetuate or mitigate disability bias. Broadly, my areas of interests are Human-AI interaction and accessibility.
       </p>
 
       <section aria-labelledby="pubs-h2">
@@ -618,7 +618,7 @@ function ResearchPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> })
                       rel="noopener noreferrer"
                       className="inline-block mt-2 text-xs underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm"
                     >
-                      View on ACM Digital Library<NewTabSR />
+                      {paper.url?.includes("arxiv") ? "View preprint on arXiv" : "View on ACM Digital Library"}<NewTabSR />
                     </a>
                   )}
                 </div>
@@ -632,16 +632,11 @@ function ResearchPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> })
       <section className="mt-12" aria-labelledby="projects-h2">
         <h2 id="projects-h2" className="text-base font-semibold mb-5">Current Projects</h2>
         <ul className="space-y-4 text-sm list-none" role="list">
-          {[
-            { title: "Disability Representation in LLMs", desc: "Evaluating how large language models represent people with disabilities across a range of prompts and contexts, and measuring bias in generated outputs." },
-            { title: "Accessibility Evaluation of AI Systems", desc: "Developing and applying frameworks to assess AI systems for accessibility, representation, trust, and disclosure — with a focus on conversational and agentic tools." },
-            { title: "Vibe Coding and Agentic Programming for BLV Users", desc: "Extending heuristic evaluation work to emerging low-code and no-code AI interfaces, studying how screen-reader users build conversational AI agents." },
-          ].map((p, i) => (
-            <li key={i} className="border-t border-border pt-4">
-              <h3 className="font-medium mb-1">{p.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{p.desc}</p>
-            </li>
-          ))}
+          <li className="border-t border-border pt-4">
+            <p className="text-xs text-muted-foreground mb-1">Summer 2026</p>
+            <h3 className="font-medium mb-1">Disability Representation in LLMs</h3>
+            <p className="text-muted-foreground leading-relaxed">Evaluating how large language models represent people with disabilities across a range of prompts and contexts.</p>
+          </li>
         </ul>
       </section>
     </div>
