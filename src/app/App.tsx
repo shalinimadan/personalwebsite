@@ -1152,14 +1152,6 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.lang = "en";
-    // Prevent search engine indexing
-    let meta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
-    if (!meta) {
-      meta = document.createElement("meta");
-      meta.name = "robots";
-      document.head.appendChild(meta);
-    }
-    meta.content = "noindex";
   }, []);
 
   useEffect(() => {
