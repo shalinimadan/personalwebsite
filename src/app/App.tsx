@@ -615,6 +615,7 @@ const PAPERS = [
     type: "Full Paper",
     award: "Best Technical Paper Nominee",
     url: "https://doi.org/10.1145/3800424.3800455",
+    video: "https://youtu.be/Yaj259VpaEE?si=EzCnAYlL62agtONC",
   },
   {
     num: "1",
@@ -694,16 +695,28 @@ function ResearchPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> })
                 >
                   <p className="text-muted-foreground mb-1">{paper.authors}</p>
                   <p className="text-muted-foreground text-xs">{paper.location}</p>
-                  {paper.url && (
-                    <a
-                      href={paper.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block mt-2 text-xs underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm"
-                    >
-                      {paper.url?.includes("arxiv") ? "View preprint on arXiv" : "View on ACM Digital Library"}<NewTabSR />
-                    </a>
-                  )}
+                  <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2">
+                    {paper.url && (
+                      <a
+                        href={paper.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm"
+                      >
+                        {paper.url?.includes("arxiv") ? "View preprint on arXiv" : "View on ACM Digital Library"}<NewTabSR />
+                      </a>
+                    )}
+                    {paper.video && (
+                      <a
+                        href={paper.video}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm"
+                      >
+                        Watch video presentation<NewTabSR />
+                      </a>
+                    )}
+                  </div>
                 </div>
               </li>
             );
@@ -1149,6 +1162,18 @@ export default function App() {
   const [filterMood, setFilterMood] = useState<string | null>(null);
   const h1Ref = useRef<HTMLHeadingElement>(null);
   const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    document.documentElement.lang = "en";
+    // Prevent search engine indexing
+    let meta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "robots";
+      document.head.appendChild(meta);
+    }
+    meta.content = "noindex";
+  }, []);
 
   useEffect(() => {
     document.title = PAGE_TITLES[page];
