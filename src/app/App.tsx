@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Plus, X, Menu, ChevronRight, ExternalLink } from "lucide-react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import headshotImg from "@/imports/shalini_madan_headshot.jpg";
+import memojiImg from "@/imports/4933D091-A81D-4820-B2B4-C4866CC547AA.png";
 import cvPdfUrl from "@/imports/sm_cv.pdf";
 
 type Page = "home" | "about" | "research" | "resume" | "diary";
@@ -190,9 +191,10 @@ function Nav({
       <nav className="max-w-4xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between" aria-label="Main">
         <button
           onClick={() => navigate("about")}
-          className="text-sm font-medium hover:opacity-50 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 rounded-sm"
+          className="flex items-center gap-2 text-sm font-medium hover:opacity-50 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 rounded-sm"
           aria-label="Shalini Madan — go to home page"
         >
+          <img src={memojiImg} alt="" aria-hidden="true" className="w-7 h-7 object-contain" />
           Shalini Madan
         </button>
 
