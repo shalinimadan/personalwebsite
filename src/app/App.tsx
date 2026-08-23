@@ -328,7 +328,7 @@ function HomePage({
 
           <div className="space-y-4 text-sm leading-relaxed mt-4 md:mt-0 mb-8 max-w-xl">
             <p>
-              I am a PhD student at the{" "}
+              I am a first-year PhD student at the{" "}
               <a href="https://si.umich.edu" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
                 University of Michigan's School of Information<NewTabSR />
               </a>
@@ -485,7 +485,7 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
 
           <div className="space-y-4 text-sm leading-relaxed mt-5 mb-8 max-w-xl">
             <p>
-              I am a PhD student at the{" "}
+              I am a first-year PhD student at the{" "}
               <a href="https://si.umich.edu" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
                 University of Michigan's School of Information<NewTabSR />
               </a>
@@ -500,9 +500,20 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
               .
             </p>
             <p>I hold a Master of Science in Information Science (Human-Computer Interaction) and a Bachelor's in Design (Interaction Design).</p>
-            <p>My master's thesis focused on developing empirical guidelines for <strong>evaluating the accessibility of conversational programming tools</strong>.</p>
-            <p>A core strand of my research focuses on <strong>evaluating conversational AI for accessibility</strong>, the representation of people with disabilities, and how AI could perpetuate or mitigate disability bias in everyday interactions.</p>
-            <p>I am currently working on evaluating disability representation in LLMs and assessing AI systems for accessibility, representation, trust, and disclosure.</p>
+
+            <p>A core strand of my research examines the <strong>accessibility and social implications of conversational AI for people with disabilities</strong>. Specifically, I:</p>
+            <ul className="space-y-1.5 mt-2 list-none">
+              {[
+                "investigate how BLV communities collaborate with LLMs and multi-agentic systems",
+                "evaluate disability representation and bias in everyday AI interactions",
+                "develop empirically grounded guidelines for designing and evaluating accessible LLMs",
+              ].map((item, i) => (
+                <li key={i} className="flex gap-2.5 items-start">
+                  <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-black opacity-40" aria-hidden="true" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
             <p>
               I'm always open to collaborations. If a project comes to mind that aligns with my background, please{" "}
               <a href="mailto:shalinii@umich.edu" className="underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
