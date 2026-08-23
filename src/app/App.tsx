@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Plus, X, Menu, ChevronRight, ExternalLink } from "lucide-react";
+import { Plus, X, Menu, ChevronRight, ExternalLink, Sun, Moon } from "lucide-react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import headshotImg from "@/imports/shalini_madan_headshot.jpg";
 import memojiImg from "@/imports/4933D091-A81D-4820-B2B4-C4866CC547AA.png";
@@ -173,11 +173,15 @@ function Nav({
   navigate,
   open,
   setOpen,
+  dark,
+  toggleDark,
 }: {
   page: Page;
   navigate: (p: Page) => void;
   open: boolean;
   setOpen: (v: boolean) => void;
+  dark: boolean;
+  toggleDark: () => void;
 }) {
   const menuId = "mobile-nav-menu";
   const links: { id: Page; label: string }[] = [
@@ -187,52 +191,64 @@ function Nav({
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-border">
+    <header className="sticky top-0 z-50 bg-background border-b border-border">
       <nav className="max-w-4xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between" aria-label="Main">
         <button
           onClick={() => navigate("about")}
-          className="flex items-center gap-2 text-sm font-medium hover:opacity-50 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 rounded-sm"
+          className="flex items-center gap-2 text-sm font-medium hover:opacity-50 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 rounded-sm"
           aria-label="Shalini Madan — go to home page"
         >
           <img src={memojiImg} alt="" aria-hidden="true" className="w-7 h-7 object-contain" />
           Shalini Madan
         </button>
 
-        {/* Desktop links */}
-        <ul className="hidden md:flex items-center gap-7" role="list">
-          {links.map((l) => (
-            <li key={l.id}>
-              <button
-                onClick={() => navigate(l.id)}
-                className={`text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 rounded-sm ${
-                  page === l.id
-                    ? "text-black font-medium underline underline-offset-4 decoration-2"
-                    : "text-muted-foreground hover:text-black"
-                }`}
-                aria-current={page === l.id ? "page" : undefined}
-              >
-                {l.label}
-              </button>
-            </li>
-          ))}
-        </ul>
+        <div className="flex items-center gap-4">
+          {/* Desktop links */}
+          <ul className="hidden md:flex items-center gap-7" role="list">
+            {links.map((l) => (
+              <li key={l.id}>
+                <button
+                  onClick={() => navigate(l.id)}
+                  className={`text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 rounded-sm ${
+                    page === l.id
+                      ? "text-foreground font-medium underline underline-offset-4 decoration-2"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                  aria-current={page === l.id ? "page" : undefined}
+                >
+                  {l.label}
+                </button>
+              </li>
+            ))}
+          </ul>
 
-        {/* Mobile toggle */}
-        <button
-          className="md:hidden p-2 -mr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 rounded-sm"
-          onClick={() => setOpen(!open)}
-          aria-label={open ? "Close navigation menu" : "Open navigation menu"}
-          aria-expanded={open}
-          aria-controls={menuId}
-        >
-          {open ? <X size={18} aria-hidden /> : <Menu size={18} aria-hidden />}
-        </button>
+          {/* Dark mode toggle */}
+          <button
+            onClick={toggleDark}
+            aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+            aria-pressed={dark}
+            className="p-1.5 text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 rounded-sm"
+          >
+            {dark ? <Sun size={16} aria-hidden /> : <Moon size={16} aria-hidden />}
+          </button>
+
+          {/* Mobile toggle */}
+          <button
+            className="md:hidden p-2 -mr-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 rounded-sm"
+            onClick={() => setOpen(!open)}
+            aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={open}
+            aria-controls={menuId}
+          >
+            {open ? <X size={18} aria-hidden /> : <Menu size={18} aria-hidden />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile menu */}
       <div
         id={menuId}
-        className={`md:hidden border-t border-border bg-white px-4 sm:px-6 pb-4 ${open ? "" : "hidden"}`}
+        className={`md:hidden border-t border-border bg-background px-4 sm:px-6 pb-4 ${open ? "" : "hidden"}`}
         aria-hidden={!open}
       >
         <ul role="list" className="flex flex-col pt-2">
@@ -241,8 +257,8 @@ function Nav({
               <button
                 onClick={() => navigate(l.id)}
                 tabIndex={open ? 0 : -1}
-                className={`w-full text-left py-2.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 rounded-sm ${
-                  page === l.id ? "font-medium text-black" : "text-muted-foreground"
+                className={`w-full text-left py-2.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 rounded-sm ${
+                  page === l.id ? "font-medium text-foreground" : "text-muted-foreground"
                 }`}
                 aria-current={page === l.id ? "page" : undefined}
               >
@@ -331,15 +347,15 @@ function HomePage({
           <div className="space-y-4 text-sm leading-relaxed mt-4 md:mt-0 mb-8 max-w-xl">
             <p>
               I am a first-year PhD student at the{" "}
-              <a href="https://si.umich.edu" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
+              <a href="https://si.umich.edu" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">
                 University of Michigan's School of Information<NewTabSR />
               </a>
               , where I am fortunate to be advised by{" "}
-              <a href="https://venkateshpotluri.me" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
+              <a href="https://venkateshpotluri.me" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">
                 Dr. Venkatesh Potluri<NewTabSR />
               </a>
               . I am also a part of the{" "}
-              <a href="https://idea11y.dev/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
+              <a href="https://idea11y.dev/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">
                 IDEA Lab<NewTabSR />
               </a>
               .
@@ -350,7 +366,7 @@ function HomePage({
             <p>I am currently working on evaluating disability representation in LLMs and assessing AI systems for accessibility, representation, trust, and disclosure.</p>
             <p>
               I'm always open to collaborations. If a project comes to mind that aligns with my background, please{" "}
-              <a href="mailto:shalinii@umich.edu" className="underline underline-offset-2 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
+              <a href="mailto:shalinii@umich.edu" className="underline underline-offset-2 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">
                 email me
               </a>
               ! I would love to chat <Emoji symbol="🙂" label="slightly smiling face" />
@@ -359,7 +375,7 @@ function HomePage({
           <nav aria-label="Contact" className="flex flex-wrap gap-x-3 gap-y-1.5 text-sm">
             <a
               href="mailto:shalinii@umich.edu"
-              className="underline underline-offset-2 text-muted-foreground hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm"
+              className="underline underline-offset-2 text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm"
             >
               shalinii@umich.edu
             </a>
@@ -368,7 +384,7 @@ function HomePage({
               href="https://scholar.google.com/citations?hl=en&user=zvhN85sAAAAJ"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline underline-offset-2 text-muted-foreground hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm"
+              className="underline underline-offset-2 text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm"
             >
               Google Scholar<NewTabSR />
             </a>
@@ -377,7 +393,7 @@ function HomePage({
               href="https://linkedin.com/in/shalinimadan"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline underline-offset-2 text-muted-foreground hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm"
+              className="underline underline-offset-2 text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm"
             >
               LinkedIn<NewTabSR />
             </a>
@@ -412,7 +428,7 @@ function HomePage({
             onClick={() => setShowAll((v) => !v)}
             aria-expanded={showAll}
             aria-controls="updates-list"
-            className="mt-5 text-sm text-muted-foreground underline underline-offset-2 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm"
+            className="mt-5 text-sm text-muted-foreground underline underline-offset-2 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm"
           >
             {showAll
               ? "Show fewer updates"
@@ -425,14 +441,14 @@ function HomePage({
         <p>Copyright 2026 Shalini Madan</p>
         <nav aria-label="Footer">
           <ul className="flex gap-5 list-none" role="list">
-            <li><a href="mailto:shalinii@umich.edu" className="hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">Email Shalini</a></li>
+            <li><a href="mailto:shalinii@umich.edu" className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">Email Shalini</a></li>
             <li>
-              <a href="https://linkedin.com/in/shalinimadan" target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
+              <a href="https://linkedin.com/in/shalinimadan" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">
                 LinkedIn<NewTabSR />
               </a>
             </li>
             <li>
-              <a href={cvPdfUrl} target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
+              <a href={cvPdfUrl} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">
                 CV (PDF)<NewTabSR />
               </a>
             </li>
@@ -453,15 +469,15 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 relative overflow-hidden">
       {/* Corner sparkles */}
-      <DoodleSparkle className="absolute top-10 right-6 text-black opacity-20 hidden md:block" size={18} />
-      <DoodleSparkle className="absolute top-24 right-16 text-black opacity-10 hidden md:block" size={12} />
-      <DoodleLightning className="absolute bottom-40 left-2 text-black opacity-10 hidden md:block" />
-      <DoodleSparkle className="absolute bottom-48 left-10 text-black opacity-15 hidden md:block" size={14} />
+      <DoodleSparkle className="absolute top-10 right-6 text-foreground opacity-20 hidden md:block" size={18} />
+      <DoodleSparkle className="absolute top-24 right-16 text-foreground opacity-10 hidden md:block" size={12} />
+      <DoodleLightning className="absolute bottom-40 left-2 text-foreground opacity-10 hidden md:block" />
+      <DoodleSparkle className="absolute bottom-48 left-10 text-foreground opacity-15 hidden md:block" size={14} />
 
       <section className="pt-12 sm:pt-14 pb-12 md:grid md:grid-cols-[1fr_200px] md:gap-12 md:items-start" aria-labelledby="about-h1">
         <div>
           {/* Pill label */}
-          <div className="inline-flex items-center gap-2 border border-black rounded-full px-4 py-1.5 text-sm font-semibold mb-6" aria-hidden="true">
+          <div className="inline-flex items-center gap-2 border border-foreground rounded-full px-4 py-1.5 text-sm font-semibold mb-6" aria-hidden="true">
             <span>·</span> About
           </div>
 
@@ -488,15 +504,15 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
           <div className="space-y-4 text-sm leading-relaxed mt-5 mb-8 max-w-xl">
             <p>
               I am a first-year PhD student at the{" "}
-              <a href="https://si.umich.edu" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
+              <a href="https://si.umich.edu" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">
                 University of Michigan's School of Information<NewTabSR />
               </a>
               , where I am fortunate to be advised by{" "}
-              <a href="https://venkateshpotluri.me" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
+              <a href="https://venkateshpotluri.me" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">
                 Dr. Venkatesh Potluri<NewTabSR />
               </a>
               . I am also a part of the{" "}
-              <a href="https://idea11y.dev/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
+              <a href="https://idea11y.dev/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">
                 IDEA Lab<NewTabSR />
               </a>
               .
@@ -511,14 +527,14 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
                 "develop empirically grounded guidelines to evaluate the accessibility of conversational programming tools",
               ].map((item, i) => (
                 <li key={i} className="flex gap-2.5 items-start">
-                  <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-black opacity-40" aria-hidden="true" />
+                  <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-foreground opacity-40" aria-hidden="true" />
                   <span>{item}</span>
                 </li>
               ))}
             </ul>
             <p>
               I'm always open to collaborations. If a project comes to mind that aligns with my background, please{" "}
-              <a href="mailto:shalinii@umich.edu" className="underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
+              <a href="mailto:shalinii@umich.edu" className="underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">
                 email me
               </a>
               ! I would love to chat <Emoji symbol="🙂" label="slightly smiling face" />
@@ -526,15 +542,15 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
           </div>
 
           <nav aria-label="Contact" className="flex flex-wrap gap-x-3 gap-y-1.5 text-sm">
-            <a href="mailto:shalinii@umich.edu" className="underline underline-offset-2 text-muted-foreground hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
+            <a href="mailto:shalinii@umich.edu" className="underline underline-offset-2 text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">
               shalinii@umich.edu
             </a>
             <span aria-hidden className="hidden sm:inline text-muted-foreground">|</span>
-            <a href="https://scholar.google.com/citations?hl=en&user=zvhN85sAAAAJ" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-muted-foreground hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
+            <a href="https://scholar.google.com/citations?hl=en&user=zvhN85sAAAAJ" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">
               Google Scholar<NewTabSR />
             </a>
             <span aria-hidden className="hidden sm:inline text-muted-foreground">|</span>
-            <a href="https://linkedin.com/in/shalinimadan" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-muted-foreground hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
+            <a href="https://linkedin.com/in/shalinimadan" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">
               LinkedIn<NewTabSR />
             </a>
           </nav>
@@ -548,14 +564,14 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
               alt="Shalini Madan smiling warmly at her graduation ceremony. She is wearing a white textured blazer and a University of Michigan yellow and navy blue graduation sash draped around her neck."
               className="w-56 h-56 object-cover object-top rounded-full"
             />
-            <DoodleWave className="absolute -bottom-5 -right-8 text-black opacity-20" />
+            <DoodleWave className="absolute -bottom-5 -right-8 text-foreground opacity-20" />
           </figure>
         </div>
       </section>
 
       <section className="border-t border-border py-10" aria-labelledby="updates-h2">
         <div className="flex items-center gap-4 mb-6">
-          <div className="inline-flex items-center gap-2 border border-black rounded-full px-4 py-1.5 text-sm font-semibold" aria-hidden="true">
+          <div className="inline-flex items-center gap-2 border border-foreground rounded-full px-4 py-1.5 text-sm font-semibold" aria-hidden="true">
             <span>·</span> Updates
           </div>
         </div>
@@ -575,7 +591,7 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
             onClick={() => setShowAll((v) => !v)}
             aria-expanded={showAll}
             aria-controls="updates-list"
-            className="mt-5 text-sm text-muted-foreground underline underline-offset-2 hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm"
+            className="mt-5 text-sm text-muted-foreground underline underline-offset-2 hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm"
           >
             {showAll ? "Show fewer updates" : `Show ${hiddenCount} older update${hiddenCount !== 1 ? "s" : ""}`}
           </button>
@@ -586,14 +602,14 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
         <p>Copyright 2026 Shalini Madan</p>
         <nav aria-label="Footer">
           <ul className="flex gap-5 list-none" role="list">
-            <li><a href="mailto:shalinii@umich.edu" className="hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">Email Shalini</a></li>
+            <li><a href="mailto:shalinii@umich.edu" className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">Email Shalini</a></li>
             <li>
-              <a href="https://linkedin.com/in/shalinimadan" target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
+              <a href="https://linkedin.com/in/shalinimadan" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">
                 LinkedIn<NewTabSR />
               </a>
             </li>
             <li>
-              <a href={cvPdfUrl} target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm">
+              <a href={cvPdfUrl} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">
                 CV (PDF)<NewTabSR />
               </a>
             </li>
@@ -648,7 +664,7 @@ function ResearchPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> })
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-14 relative overflow-hidden">
-      <DoodleScribble className="absolute top-8 right-2 text-black opacity-[0.07] hidden md:block" />
+      <DoodleScribble className="absolute top-8 right-2 text-foreground opacity-[0.07] hidden md:block" />
       <h1 ref={h1Ref} tabIndex={-1} className="text-2xl font-semibold mb-3 focus-visible:outline-none">
         Research
       </h1>
@@ -668,7 +684,7 @@ function ResearchPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> })
                 <h3>
                   <button
                     id={btnId}
-                    className="w-full text-left py-5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm"
+                    className="w-full text-left py-5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm"
                     onClick={() => setExpanded(isOpen ? null : paper.num)}
                     aria-expanded={isOpen}
                     aria-controls={panelId}
@@ -714,7 +730,7 @@ function ResearchPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> })
                         href={paper.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm"
+                        className="text-xs underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm"
                       >
                         {paper.url?.includes("arxiv") ? "View preprint on arXiv" : "View on ACM Digital Library"}<NewTabSR />
                       </a>
@@ -724,7 +740,7 @@ function ResearchPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> })
                         href={paper.video}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm"
+                        className="text-xs underline underline-offset-2 hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm"
                       >
                         Watch video presentation<NewTabSR />
                       </a>
@@ -829,7 +845,7 @@ function ResumePage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-14 relative overflow-hidden">
-      <DoodleDots className="absolute bottom-10 right-0 text-black opacity-[0.06] hidden md:block" />
+      <DoodleDots className="absolute bottom-10 right-0 text-foreground opacity-[0.06] hidden md:block" />
       <div className="flex items-start justify-between flex-wrap gap-4 mb-8 sm:mb-10">
         <h1 ref={h1Ref} tabIndex={-1} className="text-2xl font-semibold focus-visible:outline-none">
           Resume
@@ -838,7 +854,7 @@ function ResumePage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
           href={cvPdfUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-sm border border-black/50 px-3 py-1.5 hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm"
+          className="inline-flex items-center gap-1.5 text-sm border border-foreground/50 px-3 py-1.5 hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm"
         >
           Download full CV (PDF)
           <ExternalLink size={12} aria-hidden />
@@ -855,8 +871,8 @@ function ResumePage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
             aria-selected={active === t.id}
             aria-controls={`panel-${t.id}`}
             onClick={() => setActive(t.id)}
-            className={`shrink-0 text-sm px-3 py-2 -mb-px border-b-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-t-sm ${
-              active === t.id ? "border-black text-black font-medium" : "border-transparent text-muted-foreground hover:text-black"
+            className={`shrink-0 text-sm px-3 py-2 -mb-px border-b-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-t-sm ${
+              active === t.id ? "border-foreground text-foreground font-medium" : "border-transparent text-muted-foreground hover:text-foreground"
             }`}
           >
             {t.label}
@@ -962,15 +978,15 @@ function DiaryPage({
 
         <fieldset className="mb-4 border-none p-0">
           <legend className="text-xs text-muted-foreground mb-2">
-            Mood <span className="text-black font-medium">(required)</span>
+            Mood <span className="text-foreground font-medium">(required)</span>
           </legend>
           <div className="flex flex-wrap gap-1.5">
             {MOODS.map((m) => (
               <button
                 key={m.id}
                 onClick={() => setDraft((p) => ({ ...p, mood: p.mood === m.id ? "" : m.id }))}
-                className={`px-2.5 py-1 text-xs rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 border ${
-                  draft.mood === m.id ? "bg-black text-white border-black" : "border-border text-muted-foreground hover:border-black hover:text-black"
+                className={`px-2.5 py-1 text-xs rounded-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-1 border ${
+                  draft.mood === m.id ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
                 }`}
                 aria-pressed={draft.mood === m.id}
               >
@@ -982,14 +998,14 @@ function DiaryPage({
 
         <div className="mb-3">
           <label htmlFor="diary-text" className="text-xs text-muted-foreground block mb-1.5">
-            Entry <span className="text-black font-medium">(required)</span>
+            Entry <span className="text-foreground font-medium">(required)</span>
           </label>
           <textarea
             id="diary-text"
             value={draft.text}
             onChange={(e) => setDraft((p) => ({ ...p, text: e.target.value }))}
             placeholder="What are you thinking about?"
-            className="w-full min-h-[6rem] border border-border px-3 py-2.5 text-sm leading-relaxed resize-none rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black placeholder:text-muted-foreground"
+            className="w-full min-h-[6rem] border border-border px-3 py-2.5 text-sm leading-relaxed resize-none rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground placeholder:text-muted-foreground"
           />
         </div>
 
@@ -1001,7 +1017,7 @@ function DiaryPage({
                   <span aria-hidden>#</span>{tag}
                   <button
                     onClick={() => removeTag(tag)}
-                    className="hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black rounded-sm ml-0.5"
+                    className="hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm ml-0.5"
                     aria-label={`Remove tag: ${tag}`}
                   >
                     <X size={9} aria-hidden />
@@ -1019,7 +1035,7 @@ function DiaryPage({
             onKeyDown={handleTagKey}
             placeholder="Type a tag and press Enter"
             aria-describedby={tagHintId}
-            className="border border-border px-3 py-1.5 text-xs w-full sm:w-56 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black placeholder:text-muted-foreground"
+            className="border border-border px-3 py-1.5 text-xs w-full sm:w-56 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground placeholder:text-muted-foreground"
           />
           <p id={tagHintId} className="text-xs text-muted-foreground mt-1">Press Enter to add each tag.</p>
         </div>
@@ -1028,7 +1044,7 @@ function DiaryPage({
           onClick={saveEntry}
           disabled={!canSave}
           aria-disabled={!canSave}
-          className="inline-flex items-center gap-1.5 bg-black text-white px-4 py-2 text-xs rounded-sm disabled:opacity-40 hover:opacity-75 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+          className="inline-flex items-center gap-1.5 bg-foreground text-background px-4 py-2 text-xs rounded-sm disabled:opacity-40 hover:opacity-75 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2"
         >
           <Plus size={12} aria-hidden />
           Save entry
@@ -1043,7 +1059,7 @@ function DiaryPage({
           <div className="flex flex-wrap gap-1.5">
             <button
               onClick={() => setFilterMood(null)}
-              className={`px-2.5 py-1 text-xs rounded-sm border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 ${filterMood === null ? "bg-black text-white border-black" : "border-border text-muted-foreground hover:border-black hover:text-black"}`}
+              className={`px-2.5 py-1 text-xs rounded-sm border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-1 ${filterMood === null ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"}`}
               aria-pressed={filterMood === null}
             >
               All moods
@@ -1052,7 +1068,7 @@ function DiaryPage({
               <button
                 key={m.id}
                 onClick={() => setFilterMood(filterMood === m.id ? null : m.id)}
-                className={`px-2.5 py-1 text-xs rounded-sm border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-1 ${filterMood === m.id ? "bg-black text-white border-black" : "border-border text-muted-foreground hover:border-black hover:text-black"}`}
+                className={`px-2.5 py-1 text-xs rounded-sm border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-1 ${filterMood === m.id ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"}`}
                 aria-pressed={filterMood === m.id}
               >
                 {m.label}
@@ -1066,7 +1082,7 @@ function DiaryPage({
             <button
               key={v}
               onClick={() => setView(v)}
-              className={`px-3 py-1.5 text-xs rounded-sm border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black capitalize ${view === v ? "bg-black text-white border-black" : "border-border text-muted-foreground hover:border-black hover:text-black"}`}
+              className={`px-3 py-1.5 text-xs rounded-sm border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground capitalize ${view === v ? "bg-foreground text-background border-foreground" : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"}`}
               aria-pressed={view === v}
             >
               {v} view
@@ -1102,7 +1118,7 @@ function TimelineView({ entries }: { entries: DiaryEntry[] }) {
               <time className="text-xs text-muted-foreground block mb-1" dateTime={entry.date} aria-label={fmtLong(entry.date)}>
                 {fmtShort(entry.date)}
               </time>
-              <span className="inline-block text-[10px] px-2 py-0.5 rounded-sm bg-black text-white">
+              <span className="inline-block text-[10px] px-2 py-0.5 rounded-sm bg-foreground text-background">
                 <SR>Mood: </SR>{mood.label}
               </span>
             </div>
@@ -1143,7 +1159,7 @@ function GridView({ entries }: { entries: DiaryEntry[] }) {
                 <time className="text-xs text-muted-foreground" dateTime={entry.date} aria-label={fmtLong(entry.date)}>
                   {fmtShort(entry.date)}
                 </time>
-                <span className="text-[10px] px-2 py-0.5 rounded-sm bg-black text-white">
+                <span className="text-[10px] px-2 py-0.5 rounded-sm bg-foreground text-background">
                   <SR>Mood: </SR>{mood.label}
                 </span>
               </div>
@@ -1173,8 +1189,16 @@ export default function App() {
   const [entries, setEntries] = useState<DiaryEntry[]>(INITIAL_ENTRIES);
   const [draft, setDraft] = useState<DiaryDraft>({ text: "", mood: "", tags: [], tagInput: "" });
   const [filterMood, setFilterMood] = useState<string | null>(null);
+  const [dark, setDark] = useState(() => {
+    try { return localStorage.getItem("theme") === "dark"; } catch { return false; }
+  });
   const h1Ref = useRef<HTMLHeadingElement>(null);
   const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+    try { localStorage.setItem("theme", dark ? "dark" : "light"); } catch {}
+  }, [dark]);
 
   useEffect(() => {
     document.documentElement.lang = "en";
@@ -1204,16 +1228,16 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-black" lang="en">
+    <div className="min-h-screen bg-background text-foreground" lang="en">
       {/* Skip navigation link — first focusable element */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:border-2 focus:border-black focus:rounded-sm focus:font-medium"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-background focus:px-3 focus:py-2 focus:text-sm focus:border-2 focus:border-foreground focus:rounded-sm focus:font-medium"
       >
         Skip to main content
       </a>
 
-      <Nav page={page} navigate={navigate} open={menuOpen} setOpen={setMenuOpen} />
+      <Nav page={page} navigate={navigate} open={menuOpen} setOpen={setMenuOpen} dark={dark} toggleDark={() => setDark((d) => !d)} />
 
       <main id="main-content" tabIndex={-1} className="focus-visible:outline-none">
         {page === "home" && <HomePage navigate={navigate} h1Ref={h1Ref} />}
