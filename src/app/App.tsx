@@ -506,7 +506,7 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
               {[
                 "investigate how BLV communities collaborate with LLMs and multi-agentic systems",
                 "evaluate disability representation and bias in everyday AI interactions",
-                "develop empirically grounded guidelines for designing and evaluating accessible LLMs",
+                "develop empirically grounded guidelines for evaluating conversational programming tools for accessibility",
               ].map((item, i) => (
                 <li key={i} className="flex gap-2.5 items-start">
                   <span className="shrink-0 mt-1.5 w-1 h-1 rounded-full bg-black opacity-40" aria-hidden="true" />
