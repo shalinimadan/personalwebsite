@@ -501,7 +501,7 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
             </p>
             <p>I hold a Master of Science in Information Science (Human-Computer Interaction) and a Bachelor's in Design (Interaction Design).</p>
 
-            <p>A core strand of my research examines the <strong>accessibility and social implications of conversational AI for people with disabilities</strong>. Specifically, I:</p>
+            <p>A core strand of my research investigates the <strong>accessibility of conversational AI systems and the representation of disability within them</strong>. Specifically, I:</p>
             <ul className="space-y-1.5 mt-2 list-none">
               {[
                 "investigate how BLV communities collaborate with LLMs and multi-agentic systems",
