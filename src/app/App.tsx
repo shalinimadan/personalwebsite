@@ -544,7 +544,7 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
             <ImageWithFallback
               src={headshotImg}
               alt="Shalini Madan smiling warmly at her graduation ceremony. She is wearing a white textured blazer and a University of Michigan yellow and navy blue graduation sash draped around her neck."
-              className="w-48 h-48 object-cover object-top rounded-full"
+              className="w-56 h-56 object-cover object-top rounded-full"
             />
             <DoodleWave className="absolute -bottom-5 -right-8 text-black opacity-20" />
           </figure>
