@@ -1189,16 +1189,19 @@ export default function App() {
   const [entries, setEntries] = useState<DiaryEntry[]>(INITIAL_ENTRIES);
   const [draft, setDraft] = useState<DiaryDraft>({ text: "", mood: "", tags: [], tagInput: "" });
   const [filterMood, setFilterMood] = useState<string | null>(null);
-  const [dark, setDark] = useState(() => {
-    try { return localStorage.getItem("theme") === "dark"; } catch { return false; }
-  });
+  const isNightTime = () => { const h = new Date().getHours(); return h >= 20 || h < 6; };
+  const [dark, setDark] = useState(isNightTime);
   const h1Ref = useRef<HTMLHeadingElement>(null);
   const isFirstRender = useRef(true);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
-    try { localStorage.setItem("theme", dark ? "dark" : "light"); } catch {}
   }, [dark]);
+
+  useEffect(() => {
+    const id = setInterval(() => setDark(isNightTime()), 60_000);
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => {
     document.documentElement.lang = "en";
