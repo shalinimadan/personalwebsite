@@ -12,7 +12,6 @@ const PAGE_TITLES: Record<Page, string> = {
   about: "About — Shalini Madan",
   research: "Research — Shalini Madan",
   resume: "Resume — Shalini Madan",
-  diary: "Diary — Shalini Madan",
 };
 
 // Screen-reader-only text
