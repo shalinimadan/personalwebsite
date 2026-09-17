@@ -12,6 +12,7 @@ const PAGE_TITLES: Record<Page, string> = {
   about: "About — Shalini Madan",
   research: "Research — Shalini Madan",
   resume: "Resume — Shalini Madan",
+  diary: "Diary — Shalini Madan",
 };
 
 // Screen-reader-only text
@@ -274,6 +275,11 @@ function Nav({
 // ─── Home ─────────────────────────────────────────────────────────────────────
 
 const UPDATES: { date: string; dateTime: string; text: React.ReactNode }[] = [
+  {
+    date: "Aug 26, 2026",
+    dateTime: "2026-08-26",
+    text: <>Back to School! <Emoji symbol="👩🏻‍🏫" label="woman teacher" /></>,
+  },
   {
     date: "Jul 15, 2026",
     dateTime: "2026-07-15",
@@ -1200,6 +1206,18 @@ export default function App() {
   useEffect(() => {
     const id = setInterval(() => setDark(isNightTime()), 60_000);
     return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = "en";
+    // Prevent search engine indexing
+    let meta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "robots";
+      document.head.appendChild(meta);
+    }
+    meta.content = "noindex";
   }, []);
 
   useEffect(() => {
