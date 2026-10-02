@@ -1218,6 +1218,14 @@ export default function App() {
       document.head.appendChild(meta);
     }
     meta.content = "noindex";
+
+    let desc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    if (!desc) {
+      desc = document.createElement("meta");
+      desc.name = "description";
+      document.head.appendChild(desc);
+    }
+    desc.content = "Shalini Madan";
   }, []);
 
   useEffect(() => {
