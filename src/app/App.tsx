@@ -1210,22 +1210,14 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.lang = "en";
-    // Prevent search engine indexing
-    let meta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
-    if (!meta) {
-      meta = document.createElement("meta");
-      meta.name = "robots";
-      document.head.appendChild(meta);
-    }
-    meta.content = "noindex";
-
     let desc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
     if (!desc) {
       desc = document.createElement("meta");
       desc.name = "description";
       document.head.appendChild(desc);
     }
-    desc.content = "Shalini Madan";
+    desc.content =
+      "Shalini Madan is a PhD student at the University of Michigan School of Information. Her research interests are HCI and Accessibility.";
   }, []);
 
   useEffect(() => {
