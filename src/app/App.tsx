@@ -73,6 +73,14 @@ function DoodleDots({ className = "" }: { className?: string }) {
   );
 }
 
+function DoodleHeart({ className = "" }: { className?: string }) {
+  return (
+    <svg aria-hidden="true" focusable="false" className={`pointer-events-none inline-block align-middle ${className}`} width="16" height="15" viewBox="0 0 16 15" fill="none">
+      <path d="M8 13 C8 13, 1 8.5, 1 4.5 C1 2.5, 2.5 1, 4.5 1.5 C6 2, 7 3.5, 8 5 C9 3.5, 10 2, 11.5 1.5 C13.5 1, 15 2.5, 15 4.5 C15 8.5, 8 13, 8 13 Z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+    </svg>
+  );
+}
+
 function DoodleCornerLines({ className = "" }: { className?: string }) {
   return (
     <svg aria-hidden="true" focusable="false" className={`pointer-events-none ${className}`} width="70" height="70" viewBox="0 0 70 70" fill="none">
@@ -443,7 +451,10 @@ function HomePage({
       </section>
 
       <footer className="border-t border-border py-6 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
-        <p>Copyright 2026 Shalini Madan</p>
+        <div>
+          <p>Copyright 2026 Shalini Madan</p>
+          <p>Designed by me (fueled by iced coffee) and built with Figma Make <DoodleHeart /></p>
+        </div>
         <nav aria-label="Footer">
           <ul className="flex gap-5 list-none" role="list">
             <li><a href="mailto:shalinii@umich.edu" className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">Email Shalini</a></li>
@@ -604,7 +615,10 @@ function AboutPage({ h1Ref }: { h1Ref: React.RefObject<HTMLHeadingElement> }) {
       </section>
 
       <footer className="border-t border-border py-6 flex flex-wrap items-center justify-between gap-3 text-xs text-muted-foreground">
-        <p>Copyright 2026 Shalini Madan</p>
+        <div>
+          <p>Copyright 2026 Shalini Madan</p>
+          <p>Designed by me (fueled by iced coffee) and built with Figma Make <DoodleHeart /></p>
+        </div>
         <nav aria-label="Footer">
           <ul className="flex gap-5 list-none" role="list">
             <li><a href="mailto:shalinii@umich.edu" className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground rounded-sm">Email Shalini</a></li>
@@ -1210,14 +1224,22 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.lang = "en";
+    // Prevent search engine indexing
+    let meta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "robots";
+      document.head.appendChild(meta);
+    }
+    meta.content = "noindex";
+
     let desc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
     if (!desc) {
       desc = document.createElement("meta");
       desc.name = "description";
       document.head.appendChild(desc);
     }
-    desc.content =
-      "Shalini Madan is a PhD student at the University of Michigan School of Information. Her research interests are HCI and Accessibility.";
+    desc.content = "Shalini Madan";
   }, []);
 
   useEffect(() => {
